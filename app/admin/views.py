@@ -32,7 +32,7 @@ class RoomsAdmin(ModelView, model=Room):
 
 class HotelsAdmin(ModelView, model=Hotels):
     column_list = [c.name for c in Hotels.__table__.c] #+ \
-       # [Hotels.room]
+    # [Hotels.room]
     name = "Отели"
     name_plural = "Отели"
     icon = "fa-solid fa-bed"

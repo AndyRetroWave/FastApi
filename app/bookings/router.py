@@ -1,5 +1,6 @@
 import json
 from datetime import date
+from fastapi_versioning import version
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 
@@ -21,6 +22,7 @@ async def get_bookings(room_id: int, user: Users = Depends(get_current_user)):
 
 
 @router.post("/add.booking")
+@version(1)
 async def add_booking(
     background_tasks: BackgroundTasks,
     room_id: int,
@@ -39,12 +41,14 @@ async def add_booking(
 
 
 @router.delete("/delete/{booking_id}")
+@version(1)
 async def delete_bookings(booking_id: int, user: Users = Depends(get_current_user)):
     result = await BookingDAO.delete(booking_id, user.id)
     return {"succes": result}
 
 
 @router.get("/add/bookings/{user_path}")
+@version(1)
 async def add_bookings_user_path(user_path: Users = Depends(get_current_user)):
     # Здесь user_path - это объект пользователя из пути маршрута
     result = await BookingDAO.get_booking_user(user_path.id)
@@ -52,6 +56,7 @@ async def add_bookings_user_path(user_path: Users = Depends(get_current_user)):
 
 
 @router.get("/id")
+@version(1)
 async def add_bookings_user_path(id: int, user_path: Users = Depends(get_current_user)):
     # Здесь user_path - это объект пользователя из пути маршрута
     result = await BookingDAO.get_bookings_id(user_path.id, id)

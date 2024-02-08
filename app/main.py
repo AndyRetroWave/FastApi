@@ -19,6 +19,7 @@ from app.pages.router import router as router_pages
 from app.static.images.router import router as router_images
 from app.users.router import router as router_users
 from app.logger import logger
+from fastapi_versioning import VersionedFastAPI
 
 
 app = FastAPI()
@@ -37,7 +38,7 @@ sentry_sdk.init(
 async def trigger_error():
     division_by_zero = 1 / 0
 
-app.mount("/static", StaticFiles(directory="app/static"), "static")
+
 
 app.include_router(router_users)
 app.include_router(router_bookings)
@@ -67,6 +68,14 @@ async def startup():
 
 app.add_event_handler("startup", startup)
 
+app = VersionedFastAPI(app,
+    version_format='{major}',
+    prefix_format='/v{major}',
+#     description='Greet users with a nice message',
+#     middleware=[
+#         Middleware(SessionMiddleware, secret_key='mysecretkey')
+#     ]
+)
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 
@@ -85,3 +94,4 @@ async def add_process_time_header(request: Request, call_next):
         "process_time": round(process_time, 4)})
     return response
 
+app.mount("/static", StaticFiles(directory="app/static"), "static")
