@@ -1,0 +1,89 @@
+[  
+    {
+        "room_id": 1,
+        "user_id": 4,
+        "date_from": "2024-01-24",
+        "date_to": "2024-01-25",
+        "price": 24500
+    },
+    {
+        "date_from": "2023-03-13",
+        "total_cost": 224500,
+        "room_id": 2,
+        "user_id": 4,
+        "date_to": "2023-03-23",
+        "price": 22450
+    },
+    {
+        "date_from": "2023-03-13",
+        "total_cost": 224500,
+        "room_id": 2,
+        "user_id": 4,
+        "date_to": "2023-03-23",
+        "price": 22450
+    },
+    {
+        "date_from": "2023-03-13",
+        "total_cost": 224500,
+        "room_id": 2,
+        "user_id": 4,
+        "date_to": "2023-03-23",
+        "price": 22450
+    },
+    {
+        "date_from": "2023-03-13",
+        "total_cost": 224500,
+        "room_id": 2,
+        "user_id": 4,
+        "date_to": "2023-03-23",
+        "price": 22450
+    },
+    {
+        "date_from": "2023-03-13",
+        "total_cost": 224500,
+        "room_id": 2,
+        "user_id": 9,
+        "date_to": "2023-03-23",
+        "price": 22450
+    },
+    {
+        "date_from": "2023-03-13",
+        "total_cost": 224500,
+        "room_id": 2,
+        "user_id": 9,
+        "date_to": "2023-03-23",
+        "price": 22450
+    },
+    {
+        "date_from": "2023-03-23",
+        "total_cost": 134700,
+        "room_id": 2,
+        "user_id": 4,
+        "date_to": "2023-03-29",
+        "price": 22450
+    },
+    {
+        "date_from": "2023-03-23",
+        "total_cost": 134700,
+        "room_id": 2,
+        "user_id": 9,
+        "date_to": "2023-03-29",
+        "price": 22450
+    },
+    {
+        "date_from": "2024-01-24",
+        "total_cost": 22450,
+        "room_id": 2,
+        "user_id": 4,
+        "date_to": "2024-01-25",
+        "price": 22450
+    },
+    {
+        "date_from": "2024-01-24",
+        "total_cost": 22450,
+        "room_id": 2,
+        "user_id": 4,
+        "date_to": "2024-01-25",
+        "price": 22450
+    }
+]

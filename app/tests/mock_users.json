@@ -1,0 +1,38 @@
+[
+    {
+        "email": "fedor@moloko.ru",
+        "hashed_password": "tut_budet_hashed_password_1"
+    },
+    {
+        "email": "sharik@moloko.ru",
+        "hashed_password": "tut_budet_hashed_password_2"
+    },
+    {
+        "email": "text@text.com",
+        "hashed_password": "$2b$12$t1NkOpfh2lbp5fQ9z0B7ueS2huMvPRVItw9iTSPcalooBgxvHZKMe"
+    },
+    {
+        "email": "user@example.com",
+        "hashed_password": "$2b$12$j4VE1mdF6nmxTWoZ5En0muna/Ot0.ZDgPDx5HAKBdLqrBkwZjZc0m"
+    },
+    {
+        "email": "user1@example.com",
+        "hashed_password": "$2b$12$es9D5ncb3rfZDPxL9Vg.6.z3woaOLwo4Yytsl/TpmzSTExXFhIfBG"
+    },
+    {
+        "email": "user2@example.com",
+        "hashed_password": "$2b$12$TE7lPyYRo7o235aY6aYPP.WIJJ2kHct3Icpn/h1dMUSZjQ4uYw9Qy"
+    },
+    {
+        "email": "Dinocowww@gmail.com",
+        "hashed_password": "$2b$12$ivwSfSZD9sYjz7R7b4.H3uApEgPK3gUQejLJdelm7xf4azeNxjw8u"
+    },
+    {
+        "email": "user3@example.com",
+        "hashed_password": "$2b$12$GckqG9KvRgJ9dY7fIcuFS.xvF7f285JtD3QKyNTShMo9IDumuRddK"
+    },
+    {
+        "email": "dinocowww@gmail.com",
+        "hashed_password": "$2b$12$T3.CyGvp4/0oXFBO6.gyDeoHE4uxQ0lJI0CGFLDcVB3tZ1K6NtcZa"
+    }
+]
