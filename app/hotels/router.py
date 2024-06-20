@@ -17,7 +17,7 @@ router = APIRouter(prefix="/hotels", tags=["Отели"])
 
 
 @router.get("")
-# @cache(expire = 30)
+@cache(expire=30)
 async def get_hotels(
         location: str,
         date_from: date = Query(...,
@@ -40,7 +40,7 @@ async def get_hotels_one(hotels_id: int):
 
 @router.get("/get hotels all")
 async def get_hotels_all():
-    return await HotelDAO.find_all()
+    return await HotelDAO.post()
 
 
 @router.post("/add hotel")
@@ -48,7 +48,12 @@ async def adds_hotel(
         name: str = Query(..., description=f"Наименование отеля"),
         location: str = Query(..., description=f"Местоположение отеля"),
         services: str = Query(...,
-                            description=f"Предоставляемые услуги отеля"),
+                              description=f"Предоставляемые услуги отеля"),
         rooms_quantity: int = Query(..., description=f"Кол-во комнат отеля"),
         image_id: int = Query(..., description=f"Номер картинки по отеля")):
-    return await HotelDAO.add_hotel(name, location, services, rooms_quantity, image_id)
+    return await HotelDAO.add_hotels(name,
+                                     location,
+                                     services,
+                                     rooms_quantity,
+                                     image_id
+                                     )

@@ -20,7 +20,7 @@ def get_token(request: Request):
 async def  get_current_user(token: str = Depends(get_token)):
     try:
         payload = jwt.decode(
-        token, setting.SECRET_KEY, setting.ALGORITHM
+            token, setting.SECRET_KEY, setting.ALGORITHM
         )
     except JWTError:
         raise IncorectTokenException

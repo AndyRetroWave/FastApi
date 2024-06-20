@@ -59,22 +59,20 @@ class BookingDAO(BaseDAO):
                 """
                 get_rooms_left = (
                     select(
-                        Bookings.id,
                         Room.quantity
                         - func.count(booked_rooms.c.room_id).label("rooms_left"),
                     )
                     .select_from(Room)
                     .join(booked_rooms, booked_rooms.c.room_id == Room.id, isouter=True)
                     .where(Room.id == room_id)
-                    .group_by(Room.quantity, booked_rooms.c.room_id, Bookings.id)
+                    .group_by(Room.quantity, booked_rooms.c.room_id)
                 )
-                # print(get_rooms_left.compile(engine, compile_kwargs={"loteral_binds":True}))
+                print(get_rooms_left.compile(engine, compile_kwargs={"loteral_binds":True}))
 
 
                 rooms_left = await session.execute(get_rooms_left)
-                rooms_left = rooms_left.scalar()
-                print(rooms_left)
-                if None == 0:
+                rooms_left_fin = rooms_left.scalar()
+                if rooms_left_fin > 0:
                     get_price = await session.execute(
                         select(Room.price).filter_by(id=room_id)
                     )
@@ -89,9 +87,7 @@ class BookingDAO(BaseDAO):
                         )
                         .returning(Bookings)
                     )
-
                     new_booking = await session.execute(add_booking)
-                    print(new_booking)
                     await session.commit()
                     return new_booking.scalar()
                 else:
@@ -146,7 +142,6 @@ class BookingDAO(BaseDAO):
                 .where(Bookings.user_id == user_id)
             )
             room_result = await session.execute(get_booking)
-            print(room_result)
             await session.commit()
             return room_result.mappings().all()
 
@@ -186,6 +181,12 @@ class BookingDAO(BaseDAO):
                 .where(Bookings.id == id)
             )
             room_result = await session.execute(get_booking_id)
-            print(room_result)
             await session.commit()
             return room_result.mappings().all()
+    
+    @classmethod
+    async def find_all(cls, room_id):
+        async with async_session_maker() as session:
+            booking = select(cls.model).where(cls.model.room_id == room_id)
+            result = await session.execute(booking)
+            return result.mappings().all()

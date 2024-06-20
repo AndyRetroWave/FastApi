@@ -60,9 +60,10 @@ class HotelDAO(BaseDAO):
                 Hotels.services.label('services'),
                 Hotels.rooms_quantity,
                 Hotels.image_id,
-                (Room.quantity - func.count(Bookings.room_id)).label("available_rooms")
-            ).select_from(Hotels).join(Room, Room.hotel_id == Hotels.id).outerjoin(
-                Bookings, and_(
+                (Room.quantity - func.count(Bookings.room_id)).\
+                    label("available_rooms")
+            ).select_from(Hotels).join(Room, Room.hotel_id == Hotels.id).\
+                outerjoin(Bookings, and_(
                     Room.id == Bookings.room_id,
                     or_(
                         and_(
@@ -102,7 +103,8 @@ class HotelDAO(BaseDAO):
                 Hotels.location,
                 Hotels.services,
                 Hotels.rooms_quantity,
-                Hotels.image_id).select_from(Hotels).where(Hotels.id == hotel_id)
+                Hotels.image_id).select_from(Hotels).\
+                    where(Hotels.id == hotel_id)
             add_hotel_result = await session.execute(get_hotel)
             return add_hotel_result.mappings().all()
         
@@ -114,7 +116,8 @@ class HotelDAO(BaseDAO):
         rooms_quantity: int,
         image_id: int):
         async with async_session_maker() as session:
-            decoded_services = json.dumps(services).encode('utf-8').decode('unicode_escape')
+            decoded_services = json.dumps(services).encode('utf-8').\
+                decode('unicode_escape')
             add_hotel = insert(Hotels).values(
                 name=name,
                 location=location,
@@ -122,7 +125,6 @@ class HotelDAO(BaseDAO):
                 rooms_quantity=rooms_quantity, 
                 image_id=image_id,
                 ).returning(Hotels)
-            print(add_hotel)
             adds_hotel = await session.execute(add_hotel)
             await session.commit()
             return adds_hotel.scalar()

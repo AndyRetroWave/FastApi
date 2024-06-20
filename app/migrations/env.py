@@ -8,8 +8,8 @@ from sqlalchemy import engine_from_config, pool
 from app.bookings.models import Bookings 
 from app.database import DATEBASE_URL, Base 
 from app.hotels.models import Hotels 
-from app.hotels.Room.models import Room 
-from app.Users.models import Users 
+from app.hotels.room.models import Room 
+from app.users.models import Users 
 
 sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 

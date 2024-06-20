@@ -24,7 +24,7 @@ services:
       - redis
     command: ["/booking/docker/app.sh"]
     ports:
-      - "7777:8000"
+      - "8000:8000"
 
   celery:
     image: booking_celery
@@ -47,3 +47,14 @@ services:
       - redis
     env_file:
       - .env-non-dev
+    ports:
+      - "5555:5555"
+  
+  web:
+    image: nginx
+    ports:
+    - "8080:80"
+    env_file:
+    - .env-non-dev
+    depends_on:
+      - redis

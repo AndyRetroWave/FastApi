@@ -24,15 +24,18 @@ class AdminAuth(AuthenticationBackend):
         request.session.clear()
         return True
 
-    async def authenticate(self, request: Request) -> Optional[RedirectResponse]:
+    async def authenticate(self, request: Request) -> \
+            Optional[RedirectResponse]:
         token = request.session.get("token")
 
         if not token:
-            return RedirectResponse(request.url_for("admin:login"), status_code=302)
+            return RedirectResponse(request.url_for("admin:login"), 
+                                    status_code=302)
 
         user = await get_current_user(token)
         if not user:
-            return RedirectResponse(request.url_for("admin:login"), status_code=302)
+            return RedirectResponse(request.url_for("admin:login"), 
+                                    status_code=302)
         return True
 
 

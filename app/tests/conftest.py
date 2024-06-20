@@ -69,7 +69,7 @@ async def ac():
 @pytest.fixture(scope="function")
 async def authenticated_ac():
     async with AsyncClient(app=fastapi_app, base_url="http://127.0.0.1:8000") as ac:
-        await ac.post("/auth/login", json={
+        await ac.post("v1/auth/login", json={
             "email": "user@example.com",
             "password":"string"})
         assert ac.cookies["booking_access_token"]

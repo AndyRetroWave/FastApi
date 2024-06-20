@@ -56,8 +56,10 @@ class RoomDAO(BaseDAO):
                 Room.description,
                 Room.services,
                 Room.price,
-                (Room.quantity - func.count(Bookings.room_id)).label("available_rooms")
-                ).select_from(Hotels).join(Room, Room.hotel_id == Hotels.id).outerjoin(
+                (Room.quantity - func.count(Bookings.room_id)).\
+                    label("available_rooms")
+                ).select_from(Hotels).join(Room, Room.hotel_id == Hotels.id).\
+                    outerjoin(
                     Bookings, and_(
                         Room.id == Bookings.room_id,
                         or_(

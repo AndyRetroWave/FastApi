@@ -8,7 +8,7 @@ class SRoom(BaseModel):
     name: str
     description: str
     price: int
-    services: List[str]  # Используйте List[str] вместо JSON
+    services: List[str]
 
     class Config(BaseConfig):
         arbitrary_types_allowed = True

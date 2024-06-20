@@ -17,9 +17,11 @@ class Bookings(Base):
     date_to = Column(Date, nullable=False)
     price = Column(Integer, nullable=False)
     total_cost = Column(
-        Integer, Computed("(date_to - date_from) * price"), nullable=True
+        Integer, Computed("(date_to - date_from) * price"), 
+        nullable=True
     )
-    total_days = Column(Integer, Computed("date_to - date_from"), nullable=True)
+    total_days = Column(Integer, Computed("date_to - date_from"), 
+                        nullable=True)
 
     def to_dict(self) -> Dict:
         return {

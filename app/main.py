@@ -24,16 +24,14 @@ from fastapi_versioning import VersionedFastAPI
 
 app = FastAPI()
 
+
 sentry_sdk.init(
     dsn="https://fa2d7b3dda356d2272fb3d7f07513bfe@o4506709859434496.ingest.sentry.io/4506709861793792",
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
     traces_sample_rate=1.0,
-    # Set profiles_sample_rate to 1.0 to profile 100%
-    # of sampled transactions.
-    # We recommend adjusting this value in production.
     profiles_sample_rate=1.0,
 )
+
+
 @app.get("/sentry-debug")
 async def trigger_error():
     division_by_zero = 1 / 0
@@ -57,7 +55,8 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PATCH", "PUT"],
-    allow_headers=["Content-Type", "Set-Cookie", "Acces-Control-Allow-Headers", "Acces-Control-Allow-Origin",
+    allow_headers=["Content-Type", "Set-Cookie", "Acces-Control-Allow-Headers",
+                    "Acces-Control-Allow-Origin",
                 "Authorization"])
 
 
