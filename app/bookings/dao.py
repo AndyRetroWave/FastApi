@@ -186,6 +186,11 @@ class BookingDAO(BaseDAO):
     
     @classmethod
     async def find_all(cls, room_id):
+        """
+        SELECT * 
+        FROM Booking
+        WHERE booking.room_id = room_id
+        """
         async with async_session_maker() as session:
             booking = select(cls.model).where(cls.model.room_id == room_id)
             result = await session.execute(booking)

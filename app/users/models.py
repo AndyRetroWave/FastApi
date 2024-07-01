@@ -10,10 +10,11 @@ class Users(Base):
     id = Column(Integer, primary_key=True)
     email = Column(String, nullable=False)
     hashed_password = Column(String, nullable=False)
+    refresh_jwt_token = Column(String)
+    role = Column(String)
 
     # booking = relationship("Bookings", back_populates="user")
 
-
     # def __str__(self):
     #     return f"User #{self.email}"
-# 
+#

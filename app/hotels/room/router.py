@@ -31,3 +31,9 @@ async def get_rooms(
 @router.get("/get rooms all")
 async def get_rooms_all():
     return await RoomDAO.post()
+
+
+@router.get("/get sorted price")
+async def get_hotel_sorted_price():
+    return await RoomDAO.get_sorted_price_rooms()
+

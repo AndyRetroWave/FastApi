@@ -20,6 +20,7 @@ from app.static.images.router import router as router_images
 from app.users.router import router as router_users
 from app.logger import logger
 from fastapi_versioning import VersionedFastAPI
+from fastapi_cache.backends.inmemory import InMemoryBackend
 
 
 app = FastAPI()
@@ -49,6 +50,8 @@ app.include_router(router_pages)
 origins = [
     "http://localhost:3000",
 ]
+
+FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 
 app.add_middleware(
     CORSMiddleware,

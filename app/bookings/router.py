@@ -17,6 +17,7 @@ router = APIRouter(
 
 
 @router.get("/room")
+@version(1)
 async def get_bookings(room_id: int, user: Users = Depends(get_current_user)):
     return await BookingDAO.find_all(room_id=room_id)
 
@@ -31,6 +32,7 @@ async def add_booking(
     user: Users = Depends(get_current_user),
 ):
     try:
+
         bookings = await BookingDAO.add(user.id, room_id, date_from, date_to)
         if not bookings:
             raise RoomCannotBeBooked
@@ -45,7 +47,7 @@ async def add_booking(
 
 @router.delete("/delete/{booking_id}")
 @version(1)
-async def delete_bookings(booking_id: int, 
+async def delete_bookings(booking_id: int,
                           user: Users = Depends(get_current_user)):
     result = await BookingDAO.delete(booking_id, user.id)
     return {"succes": result}
@@ -61,7 +63,7 @@ async def add_bookings_user_path(user_path: Users = Depends(get_current_user)):
 
 @router.get("/id")
 @version(1)
-async def add_bookings_user_path(id: int, user_path: 
+async def add_bookings_user_path(id: int, user_path:
                                  Users = Depends(get_current_user)):
     # Здесь user_path - это объект пользователя из пути маршрута
     result = await BookingDAO.get_bookings_id(user_path.id, id)

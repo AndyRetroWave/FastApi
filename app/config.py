@@ -30,5 +30,8 @@ class Settings(BaseSettings):
     TEST_DB_PASS: str
     TEST_DB_NAME: str
 
+    ACCESS_TOKEN_TIME_MINUTE: int
+    REFRESH_TOKEN_TIME_MINUTE: int
+
 
 setting = Settings()

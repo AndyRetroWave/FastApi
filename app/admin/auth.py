@@ -13,10 +13,12 @@ class AdminAuth(AuthenticationBackend):
     async def login(self, request: Request) -> bool:
         form = await request.form()
         email, password = form["username"], form["password"]
-
         user = await authenticate_user(email, password)
         if user:
-            access_token = create_access_token({"sub": str(user.id)})
+            access_token = create_access_token(
+                {"sub": str(user.id),
+                 "email": str(user.email)
+                })
             request.session.update({"token": access_token})
         return True
 

@@ -53,7 +53,7 @@ services:
   web:
     image: nginx
     ports:
-    - "8080:80"
+    - "80:80"
     env_file:
     - .env-non-dev
     depends_on:

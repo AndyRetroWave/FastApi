@@ -84,3 +84,9 @@ class RoomDAO(BaseDAO):
             hotel_left_result = await session.execute(room_left)
             return hotel_left_result.mappings().all()
 
+    @classmethod
+    async def get_sorted_price_rooms(cls):
+        async with async_session_maker() as session:
+            sorted_rooms = select(cls.model).order_by(cls.model.price)
+            result = await session.execute(sorted_rooms)
+            return result.mappings().all()
