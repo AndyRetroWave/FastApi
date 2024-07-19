@@ -12,6 +12,43 @@ services:
     image: redis:7
     container_name: booking_redis
 
+  # celery:
+  #   image: booking_celery
+  #   build:
+  #     context: .
+  #   container_name: booking_celery
+  #   command: [ "/booking/docker/celery.sh", "celery" ]
+  #   depends_on:
+  #     - redis
+  #   env_file:
+  #     - .env-non-dev
+
+  # flower:
+  #   image: booking_flower
+  #   build:
+  #     context: .
+  #   container_name: booking_flower
+  #   command: [ "/booking/docker/celery.sh", "flower" ]
+  #   depends_on:
+  #     - redis
+  #   env_file:
+  #     - .env-non-dev
+  #   ports:
+  #     - "5555:5555"
+
+  web:
+    image: nginx:alpine
+    container_name: web
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - app-network
+    depends_on:
+      - booking
+
   booking:
     image: booking_image
     build:
@@ -22,39 +59,10 @@ services:
     depends_on:
       - db
       - redis
-    command: ["/booking/docker/app.sh"]
+    command: [ "/booking/docker/app.sh" ]
     ports:
       - "8000:8000"
 
-  celery:
-    image: booking_celery
-    build:
-      context: .
-    container_name: booking_celery
-    command: ["/booking/docker/celery.sh", "celery"]
-    depends_on:
-      - redis
-    env_file:
-      - .env-non-dev
-
-  flower:
-    image: booking_flower
-    build:
-      context: .
-    container_name: booking_flower
-    command: ["/booking/docker/celery.sh", "flower"]
-    depends_on:
-      - redis
-    env_file:
-      - .env-non-dev
-    ports:
-      - "5555:5555"
-  
-  web:
-    image: nginx
-    ports:
-    - "80:80"
-    env_file:
-    - .env-non-dev
-    depends_on:
-      - redis
+networks:
+  app-network:
+    driver: bridge

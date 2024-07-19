@@ -1,8 +1,7 @@
 from app.dao.base import BaseDAO
 from app.users.models import Users
 from app.database import async_session_maker
-from sqlalchemy import (JSON, String, and_, bindparam, delete, func, insert, join, or_,
-                        select, update)
+from sqlalchemy import delete, select, update
 
 from app.users.schemas import SUserAuth
 

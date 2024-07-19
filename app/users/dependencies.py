@@ -1,61 +1,61 @@
-
-from datetime import datetime
 from typing import Any
 import uuid
 
-from fastapi import Depends, HTTPException, Request, Response, status
+from fastapi import Depends, Request, Response, status
 from jose import JWTError, jwt
 
 from app.config import setting
-from app.exception import (AdminAccessExpireException, IncorectTokenException,
-                           TokenAsentException, TokenExpireException,
-                           TokenRefreshAsentException, UserIsNotPresentException
+from app.exception import (AdminAccessExpireException,
+                           TokenAsentException, TokenRefreshAsentException
                            )
-from app.users.auth import create_access_token
+from app.users.auth import create_token, valid__refresh_token
 from app.users.dao import UsersDAO
 from app.users.models import Users
+from app.config import setting
 
 
-def get_token_dependency(token: str):
-    def get_token(request: Request):
-        refresh_token = request.cookies.get(f"booking_{token}_token")
-        if not refresh_token:
+def get_token_request(token_type: str):
+    def dependency(request: Request):
+        token = request.cookies.get(f"booking_{token_type}_token")
+        if not token:
             raise TokenAsentException
-        return refresh_token
-    return get_token()
+        return token
+    return dependency
 
 
 async def get_current_user(response: Response,
                            token_access: str = Depends(
-                               get_token_dependency("access")),
+                               get_token_request("access")),
                            token_refresh: str = Depends(
-                               get_token_dependency("refresh"))
+                               get_token_request("refresh"))
                            ):
     try:
         try:
             payload = jwt.decode(
                 token_access, setting.SECRET_KEY, setting.ALGORITHM
             )
-            email = await UsersDAO.get_users_email(payload.get('email'))
-            return email
+            return await UsersDAO.get_users_email(payload.get('email'))
         except:
+            valid_token_refresh = await valid__refresh_token(token_refresh)
             payload_access_no_valid = jwt.decode(
                 token_access, setting.SECRET_KEY, setting.ALGORITHM,
                 options={'verify_exp': False}
             )
             if token_refresh == await UsersDAO.\
-                    get_refresh_token(payload_access_no_valid.get('email')):
-                sub = payload_access_no_valid.get('sub')
+                    get_refresh_token(payload_access_no_valid.get('email')) and\
+                    not valid_token_refresh:
                 email = payload_access_no_valid.get('email')
-                jti_access = str(uuid.uuid4())
-                access_token = create_access_token({
-                    "sub": str(sub),
+                access_token = create_token({
+                    "sub": str(payload_access_no_valid.get('sub')),
                     "email": str(email),
-                    "jti": str(jti_access)
-                })
+                    "jti": str(uuid.uuid4()),
+                },
+                    setting.ACCESS_TOKEN_TIME_MINUTE,
+                    "access")
                 response.set_cookie("booking_access_token",
                                     access_token,
-                                    httponly=True
+                                    httponly=True,
+                                    expires=setting.ACCESS_TOKEN_TIME_MINUTE,
                                     )
                 return await UsersDAO.get_users_email(email)
             else:

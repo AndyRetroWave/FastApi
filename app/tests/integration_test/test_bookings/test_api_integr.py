@@ -15,7 +15,6 @@ async def test_add_and_get_booking_api(id, date_from, date_to, status_code, auth
     assert response.status_code == status_code
 
 
-
 @pytest.mark.parametrize("location,date_from,date_to,status_code", [
     ("Алтай", "2023-03-13", "2023-03-23", 200),
     ("Алтай", "2023-03-24", "2023-03-23", 400),

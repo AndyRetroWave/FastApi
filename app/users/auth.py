@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import uuid
 
 from jose import jwt
 from passlib.context import CryptContext
@@ -30,25 +31,21 @@ def create_token(data: dict, expire_int: int, type_token: str) -> str:
     return encoded_jwt
 
 
-def create_access_token(data: dict) -> str:
-    access_token = create_token(data=data,
-                                expire_int=setting.ACCESS_TOKEN_TIME_MINUTE,
-                                type_token="access"
-                                )
-    return access_token
-
-
-def create_refresh_token(date: dict = []) -> str:
-    refresh_token = create_token(
-        data=date, 
-        expire_int=setting.REFRESH_TOKEN_TIME_MINUTE, 
-        type_token="refresh"
-        )
-    return refresh_token
-
-
 async def authenticate_user(email: EmailStr, password: str):
     user = await UsersDAO.find_scalar(email=email)
     if not user or not verefy_password(password, user.hashed_password):
         return None
     return user
+
+
+async def valid__refresh_token(old_refresh_token: str) -> str:
+    try:
+        data_refresh_token = jwt.decode(
+            old_refresh_token, setting.SECRET_KEY, setting.ALGORITHM
+        )
+    except:
+        token = create_token(data={"jti": str(uuid.uuid4())},
+                             expire_int=setting.REFRESH_TOKEN_TIME_MINUTE,
+                             type_token="refresh"
+                             )
+        return token

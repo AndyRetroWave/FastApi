@@ -1,5 +1,6 @@
 import time
 from fastapi import FastAPI, Request
+from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
@@ -26,17 +27,16 @@ from fastapi_cache.backends.inmemory import InMemoryBackend
 app = FastAPI()
 
 
-sentry_sdk.init(
-    dsn="https://fa2d7b3dda356d2272fb3d7f07513bfe@o4506709859434496.ingest.sentry.io/4506709861793792",
-    traces_sample_rate=1.0,
-    profiles_sample_rate=1.0,
-)
+# sentry_sdk.init(
+#     dsn="https://fa2d7b3dda356d2272fb3d7f07513bfe@o4506709859434496.ingest.sentry.io/4506709861793792",
+#     traces_sample_rate=1.0,
+#     profiles_sample_rate=1.0,
+# )
 
 
-@app.get("/sentry-debug")
-async def trigger_error():
-    division_by_zero = 1 / 0
-
+# @app.get("/sentry-debug")
+# async def trigger_error():
+#     division_by_zero = 1 / 0
 
 
 app.include_router(router_users)
@@ -59,8 +59,8 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PATCH", "PUT"],
     allow_headers=["Content-Type", "Set-Cookie", "Acces-Control-Allow-Headers",
-                    "Acces-Control-Allow-Origin",
-                "Authorization"])
+                   "Acces-Control-Allow-Origin",
+                   "Authorization"])
 
 
 async def startup():
@@ -71,13 +71,13 @@ async def startup():
 app.add_event_handler("startup", startup)
 
 app = VersionedFastAPI(app,
-    version_format='{major}',
-    prefix_format='/v{major}',
-#     description='Greet users with a nice message',
-#     middleware=[
-#         Middleware(SessionMiddleware, secret_key='mysecretkey')
-#     ]
-)
+                       version_format='{major}',
+                       prefix_format='/v{major}',
+                       #    description='Greet users with a nice message',
+                       #    middleware=[
+                       #        Middleware(SessionMiddleware, secret_key='mysecretkey')
+                       #    ]
+                       )
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 
@@ -86,6 +86,7 @@ admin.add_view(UsersAdmin)
 admin.add_view(BookingsAdmin)
 admin.add_view(HotelsAdmin)
 admin.add_view(RoomsAdmin)
+
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
