@@ -51,16 +51,17 @@
 >
 > [tool.pdm.scripts] ><br />
 > lint_src = {composite = [
-> ><br />
-> >"ruff check ./src --fix --show-fixes",
-> ><br />
-> >"black ./src",
-> ><br />
-> >"ruff check ./src --fix --show-fixes",
-> ><br />
-> >"alembic check",
-> ><br />
-> >]}
+>
+> > <br />
+> > "ruff check ./src --fix --show-fixes",
+> > <br />
+> > "black ./src",
+> > <br />
+> > "ruff check ./src --fix --show-fixes",
+> > <br />
+> > "alembic check",
+> > <br />
+> > ]}
 
 ## Админ-панель (SQLAdmin)
 
@@ -118,7 +119,7 @@ print(b64encode(token_bytes(32)).decode())
 2. Склонировать репозиторий:
 
    ```
-   git clone git@github.com:Bllagden/Booking-FastAPI.git
+   git clone git@github.com:AndyRetroWave/FastApi.git
    cd Booking-FastAPI
    ```
 
